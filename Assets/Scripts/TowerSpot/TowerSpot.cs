@@ -1,14 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using System;
 
 public class TowerSpot : MonoBehaviour
 {
-    public UnityEvent OnEmptySpotTap;
-    public UnityEvent OnTowerTap;
-
     public TowerController buildedTower;
     public Transform buildedTowerParent;
 
@@ -16,8 +13,12 @@ public class TowerSpot : MonoBehaviour
 
     public void OnTowerBuild(TowerBuildCell cell)
     {
-        var towerController = Instantiate(cell.tower, buildedTowerParent);
-        towerController.transform.localScale = new Vector3(1, 1, 1);
+        var towerObject = PoolManager.GetFromPool(cell.tower);
+        towerObject.transform.parent = buildedTowerParent;
+        towerObject.transform.localScale = new Vector3(1, 1, 1);
+        towerObject.transform.localPosition = Vector3.zero;
+
+        var towerController = towerObject.GetComponent<TowerController>();
         if (towerController == null)
         {
             Debug.LogWarning("Created tower without Tower Controller component");
@@ -28,17 +29,27 @@ public class TowerSpot : MonoBehaviour
         }       
     }
 
+    public void OnTowerManagementAction(TowerManagementCellController cell)
+    {
+        var action = cell.action;
+
+        switch (action)
+        {
+            case TowerManagementAction.UPGRADE:
+                buildedTower.UpgradeTower();
+                break;
+            default:
+                PoolManager.AddToPool(buildedTower);
+                buildedTower = null;
+                break;
+        }
+    }
+
     private void OnMouseUpAsButton()
     {
-        Debug.Log("Selected");
-        OnSpotSelected(this);
-        if (buildedTower == null)
-        {
-            OnEmptySpotTap?.Invoke();
-        }
-        else
-        {
-            OnTowerTap?.Invoke();
+        if (EventSystem.current.currentSelectedGameObject?.name == null)
+        {            
+            OnSpotSelected(this);
         }
     }
 }

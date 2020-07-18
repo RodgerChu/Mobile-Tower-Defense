@@ -37,7 +37,7 @@ public class TowerInfoDisplayController : MonoBehaviour
     {
         Debug.Log("Show tower info");
         displayObject.transform.localScale = new Vector3(1, 1, 1);
-        var stats = tower.towerStats;
+        var stats = tower.towerStatsPrefab;
         towerIcon.sprite = stats.towerIcon;
         towerName.text = stats.towerName;
         towerAttackDamage.text = stats.damage.ToString();

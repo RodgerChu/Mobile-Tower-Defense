@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BulletController : Poolable
 {
-    public int damage;
+    public uint damage;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -12,7 +12,7 @@ public class BulletController : Poolable
         var enemyController = gObject.GetComponent<EnemyController>();
         if (enemyController != null)
         {
-            enemyController.enemyStats.TakeDamage(damage);
+            enemyController.TakeDamage(damage);
             MoveToPool();
             return;
         }

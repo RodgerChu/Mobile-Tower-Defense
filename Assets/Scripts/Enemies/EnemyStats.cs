@@ -8,24 +8,28 @@ public class EnemyStats: ScriptableObject
 {
     public string enemyName = "Enemy";
 
-    public int maxHealthPoints;
-    private int currentHealthPoints;
+    public uint maxHealthPoints;
+    private uint currentHealthPoints;
 
     public uint damageToPlayer = 1;
-    public int armor = 0;
+    public uint armor = 0;
     public float moveSpeed = 1;
     public uint bounty = 3;
 
     public Action OnDeath;
 
-    public void TakeDamage(int amount)
+    public void TakeDamage(uint amount)
     {
         amount -= armor;
         if (amount <= 0)
             amount = 1;
 
-        currentHealthPoints -= amount;
-        if (currentHealthPoints <= 0)
+        if (currentHealthPoints != 0)
+        {
+            currentHealthPoints -= amount;
+        }
+        
+        if (currentHealthPoints == 0)
         {
             OnDeath?.Invoke();
         }

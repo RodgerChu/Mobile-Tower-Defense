@@ -79,7 +79,7 @@ public static class GameEventObserver
         OnMoneyChanged -= listener;
     }
 
-    public static void FireOnMOneyChangedEvent(uint newAmount)
+    public static void FireOnMoneyChangedEvent(uint newAmount)
     {
         OnMoneyChanged?.Invoke(newAmount);
     }

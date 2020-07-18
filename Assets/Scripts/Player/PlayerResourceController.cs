@@ -4,19 +4,20 @@ using UnityEngine;
 
 public class PlayerResourceController : MonoBehaviour
 {
-    public const uint startingMoney = 15;
+    public uint startingMoney = 15;
     private uint currentMoney = 0;
 
     void Start()
     {
+        GameEventObserver.FireOnMoneyChangedEvent(startingMoney);
         GameEventObserver.AddOnEnemyKillListener(OnEnemyKill);
         currentMoney = startingMoney;
     }
 
     private void OnEnemyKill(EnemyController enemy)
     {
-        currentMoney += enemy.enemyStats.bounty;
-        GameEventObserver.FireOnMOneyChangedEvent(currentMoney);
+        currentMoney += enemy.enemyStatsPrefab.bounty;
+        GameEventObserver.FireOnMoneyChangedEvent(currentMoney);
     }
 
     public uint GetCurrentMoney()
@@ -27,7 +28,12 @@ public class PlayerResourceController : MonoBehaviour
     public void DecreaseMoney(uint decreaseAmount)
     {
         currentMoney -= decreaseAmount;
-        GameEventObserver.FireOnMOneyChangedEvent(currentMoney);
+        GameEventObserver.FireOnMoneyChangedEvent(currentMoney);
     }
 
+    public void IncreaseMoney(uint increaseAmount)
+    {
+        currentMoney += increaseAmount;
+        GameEventObserver.FireOnMoneyChangedEvent(currentMoney);
+    }
 }

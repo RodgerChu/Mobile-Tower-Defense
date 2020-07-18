@@ -3,23 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(SphereCollider))]
-public class TowerController : MonoBehaviour
+public class TowerController : Poolable
 {
-    public TowerStats towerStats;
+    public TowerStats towerStatsPrefab;
 
     public GameObject weaponHead;
     public Transform projectileStartPosition;
 
+    private TowerStats currentTowerStats;
+    private uint currentTowerLevel = 1;
     private float shootingTimer;
     private EnemyController targetEnemy;
-    private List<EnemyController> enemiesInRange;
+    private List<EnemyController> enemiesInRange = new List<EnemyController>();
 
     void Start()
     {
-        enemiesInRange = new List<EnemyController>();
-
+        currentTowerStats = Instantiate(towerStatsPrefab);
         var shootRangeCollider = GetComponent<SphereCollider>();
-        shootRangeCollider.radius = towerStats.fireRange;
+        shootRangeCollider.radius = currentTowerStats.fireRange;
     }
 
     void Update()
@@ -46,7 +47,7 @@ public class TowerController : MonoBehaviour
 
     private void ShootTargetEnemy()
     {
-        var projectile = PoolManager.GetFromPool(towerStats.poolableProjectile);
+        var projectile = PoolManager.GetFromPool(currentTowerStats.poolableProjectile);
         var bulletController = projectile.GetComponent<BulletController>();
         if (bulletController == null)
         {
@@ -54,9 +55,9 @@ public class TowerController : MonoBehaviour
         }
         else
         {
-            bulletController.damage = towerStats.damage;
+            bulletController.damage = currentTowerStats.damage;
             bulletController.FireAt(targetEnemy.transform.position, projectileStartPosition.position);
-            shootingTimer = towerStats.fireSpeed;
+            shootingTimer = currentTowerStats.fireSpeed;
         }
     }
 
@@ -127,5 +128,23 @@ public class TowerController : MonoBehaviour
         {
             targetEnemy = null;
         }
+    }
+
+    public void UpgradeTower()
+    {
+        Debug.Log("On tower upgrade");
+    }
+
+    public override void OnMovedToPool()
+    {
+        currentTowerLevel = 1;
+        enemiesInRange.Clear();
+        targetEnemy = null;
+        shootingTimer = 0;
+    }
+
+    public override void OnActivatedFromPool()
+    {
+        
     }
 }

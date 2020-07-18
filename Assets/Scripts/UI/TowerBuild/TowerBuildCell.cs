@@ -25,11 +25,11 @@ public class TowerBuildCell : MonoBehaviour
 
     public void LoadCellWithTower(TowerController gObject)
     {
-        towerIcon.sprite = gObject.towerStats.towerIcon;
+        towerIcon.sprite = gObject.towerStatsPrefab.towerIcon;
         tower.transform.localPosition = Vector3.zero;
         tower.transform.localScale = new Vector3(35, 35, 35);
         tower.transform.Rotate(0, 120, 0);
-        towerCost.text = gObject.towerStats.cost.ToString();
+        towerCost.text = gObject.towerStatsPrefab.cost.ToString();
     }
 
     public void OnPressed()
@@ -55,6 +55,6 @@ public class TowerBuildCell : MonoBehaviour
     public void SetUnselected()
     {
         selected = false;
-        towerIcon.sprite = tower.towerStats.towerIcon;
+        towerIcon.sprite = tower.towerStatsPrefab.towerIcon;
     }
 }

@@ -1,21 +1,24 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class GameFlowManager : MonoBehaviour
 {
-    public PoolableData[] poolableDatas;
-    public Poolable[] poolables;
+    public PoolableObject[] poolableObjects;
+
+    public WaveSO[] waves;
 
     public Transform enemySpawnPoint;
     public Transform[] waypoints;
 
-    public Poolable enemyPrefab;
-
-    public float spawnTime = 5f;
-
     public uint defaultHealth = 5;
+
+    public UnityEvent OnWaveEnded;
+
     private uint currentHealth;
+
+    private uint completedCoroutines = 0;
 
     void Start()
     {
@@ -23,17 +26,15 @@ public class GameFlowManager : MonoBehaviour
 
         PoolManager.Initialize();
 
-        for (int index = 0; index < poolableDatas.Length; index++)
+        for (int index = 0; index < poolableObjects.Length; index++)
         {
-            var data = poolableDatas[index];
-            var poolable = poolables[index];
-
-            PoolManager.AddToPool(data, poolable);
+            var poolableObject = poolableObjects[index];
+            PoolManager.AddToPool(poolableObject);
         }
 
         GameEventObserver.AddOnDamageTakenListener(OnDamageTaken);
 
-        //StartCoroutine(SpawnCoroutine());
+        StartCoroutine(SpawnCoroutine());
         GameEventObserver.FireHUDHealthEvent(currentHealth);
     }
 
@@ -53,13 +54,66 @@ public class GameFlowManager : MonoBehaviour
 
     private IEnumerator SpawnCoroutine()
     {
-        while(true)
-        {            
-            var enemy = PoolManager.GetFromPool(enemyPrefab);
-            enemy.transform.position = enemySpawnPoint.position;
-            var enemyController = enemy.GetComponent<EnemyController>();
-            enemyController.waypoints = waypoints;
-            yield return new WaitForSeconds(spawnTime);
+        for (int index = 0; index < waves.Length; index++)
+        {
+            completedCoroutines = 0;
+
+            var wave = waves[index];
+            List<IEnumerator> enemiesSpawnCoroutine = new List<IEnumerator>();
+
+            foreach (var data in wave.enemySpawnDatas)
+            {
+                var spawnCoroutine = EnemySpawnCoroutine(data);                
+                StartCoroutine(spawnCoroutine);
+                enemiesSpawnCoroutine.Add(spawnCoroutine);
+            }
+
+            while(completedCoroutines != enemiesSpawnCoroutine.Count)
+            {
+                Debug.Log("Waiting: current completed – " + completedCoroutines + " total number –" + enemiesSpawnCoroutine.Count);
+                yield return new WaitForSeconds(0.1f);
+            }
+
+
+            OnWaveEnded?.Invoke();
+
+            foreach (var coroutine in enemiesSpawnCoroutine)
+            {
+                StopCoroutine(coroutine);
+            }
+
+            yield return new WaitForSeconds(wave.waitTime);        
         }
+
+        Debug.Log("All waves completed");
+    }
+
+    private IEnumerator EnemySpawnCoroutine(EnemySpawnData enemyData)
+    {
+        Debug.Log("Start coroutine: enemy spawn. Enemy: " + enemyData.enemyPoolable + ". Enemy count:" + enemyData.numberOfEnemies);
+        int index = 0;
+        if (enemyData.spawnAtWaveStart)
+        {
+            SpawnEnemy(enemyData.enemyPoolable);
+            index++;
+            yield return new WaitForSeconds(enemyData.spawnTimeInterval);
+        }
+
+        for ( ; index < enemyData.numberOfEnemies; index++)
+        {
+            SpawnEnemy(enemyData.enemyPoolable);
+            yield return new WaitForSeconds(enemyData.spawnTimeInterval);
+        }
+
+        completedCoroutines++;
+    }
+
+    private void SpawnEnemy(Poolable poolable)
+    {
+        Debug.Log("Spawn enemy: " + poolable);
+        var enemy = PoolManager.GetFromPool(poolable);
+        enemy.transform.position = enemySpawnPoint.position;
+        var controller = enemy.GetComponent<EnemyController>();
+        controller.waypoints = waypoints;
     }
 }

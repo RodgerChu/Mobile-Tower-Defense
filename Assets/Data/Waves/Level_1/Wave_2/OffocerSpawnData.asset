@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bcf82b6b88ca2495da0f6a6ac3a70ebd, type: 3}
+  m_Name: OffocerSpawnData
+  m_EditorClassIdentifier: 
+  enemyPoolable: {fileID: 3344500584017387902, guid: 0b7859353d36442c3b75cd6c64443f87,
+    type: 3}
+  spawnTimeInterval: 5
+  numberOfEnemies: 2
+  spawnAtWaveStart: 0

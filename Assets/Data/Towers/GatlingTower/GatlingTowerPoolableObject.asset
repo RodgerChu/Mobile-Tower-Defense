@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3705c8d894adb4e679e117fd79368cb5, type: 3}
+  m_Name: GatlingTowerPoolableObject
+  m_EditorClassIdentifier: 
+  poolable: {fileID: 5071737204451556730, guid: 03d7a81a02345462fa040e4117dbc223,
+    type: 3}
+  poolableData: {fileID: 11400000, guid: 3d74c8dfe7b274180a6d0e638d4c02d1, type: 2}

@@ -6,7 +6,7 @@ using System;
 
 public class EnemyController : Poolable
 {
-    public EnemyStats enemyStats;
+    public EnemyStats enemyStatsPrefab;
     public Transform[] waypoints;
     public NavMeshAgent agent;
     public Collider triggerCollider;
@@ -14,14 +14,19 @@ public class EnemyController : Poolable
     public Action<EnemyController> OnKill;
 
     private int currentWayPoint = 0;
+    public EnemyStats currentStats;
+
+    private void Awake()
+    {
+        currentStats = Instantiate(enemyStatsPrefab);
+        currentStats.ResetStats();
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        enemyStats.ResetStats();
-
-        agent.speed = enemyStats.moveSpeed;
-        enemyStats.OnDeath += OnDeath;
+        agent.speed = currentStats.moveSpeed;
+        currentStats.OnDeath += OnDeath;
     }
 
     // Update is called once per frame
@@ -35,7 +40,7 @@ public class EnemyController : Poolable
             }
             else
             {
-                GameEventObserver.FireOnDamageTakenEvent(enemyStats.damageToPlayer);
+                GameEventObserver.FireOnDamageTakenEvent(currentStats.damageToPlayer);
                 PoolManager.AddToPool(this);
             }
 
@@ -60,11 +65,20 @@ public class EnemyController : Poolable
         triggerCollider.enabled = true;
         triggerCollider.isTrigger = true;
         currentWayPoint = 0;
-        enemyStats.ResetStats();
+        currentStats.ResetStats();
+    }
+
+    public void TakeDamage(uint amount)        
+    {
+        currentStats.TakeDamage(amount);
     }
 
     private void SetNextPoint()
     {
+        if (waypoints == null || waypoints.Length == 0)
+        {
+            return;
+        }
         agent.SetDestination(waypoints[currentWayPoint].position);
         currentWayPoint++;
     }

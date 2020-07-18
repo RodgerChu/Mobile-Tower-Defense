@@ -7,10 +7,11 @@ public class TowerStats : ScriptableObject
 {
     public string towerName;
     public Sprite towerIcon;
-    public int cost;
+    public uint cost;
+    public uint upgradeCost;
     public float fireRange;
     public float fireSpeed;
-    public int damage;
+    public uint damage;
 
     public Poolable poolableProjectile;
 }

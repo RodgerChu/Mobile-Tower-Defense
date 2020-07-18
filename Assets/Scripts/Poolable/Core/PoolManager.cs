@@ -14,6 +14,11 @@ public static class PoolManager
         deactivatedObjectsParent.name = "Poolabel Objects";
     }
 
+    public static void AddToPool(PoolableObject poolableObject)
+    {
+        AddToPool(poolableObject.poolableData, poolableObject.poolable);
+    }
+
     public static void AddToPool(PoolableData data, Poolable poolable)
     {
         poolable.gameObject.SetActive(false);
@@ -36,11 +41,14 @@ public static class PoolManager
     public static GameObject GetFromPool(Poolable poolable)
     {
         GameObject gObject = null;
-
         if (poolsDictionary.ContainsKey(poolable.objectName))
         {
             var list = poolsDictionary[poolable.objectName];
             gObject = list.GetObjectFromPool();
+        }
+        else
+        {
+            Debug.LogWarning("Tried to get from pull object that is not in pool");
         }
 
         return gObject;
