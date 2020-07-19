@@ -18,8 +18,12 @@ public class TowerInfoDisplayController : MonoBehaviour
         Hide();
     }
 
-    public void OnTowerSelected(TowerController tower)
+    public void OnTowerSpotSelected(TowerSpot towerSpot)
     {
+        var tower = towerSpot.buildedTower;
+        if (tower == null)
+            return;
+
         ShowTowerInfo(tower);
     }
 
@@ -35,17 +39,16 @@ public class TowerInfoDisplayController : MonoBehaviour
 
     private void ShowTowerInfo(TowerController tower)
     {
-        Debug.Log("Show tower info");
         displayObject.transform.localScale = new Vector3(1, 1, 1);
-        var stats = tower.towerStatsPrefab;
+        var stats = tower.GetTowerStats();
         towerIcon.sprite = stats.towerIcon;
-        towerName.text = stats.towerName;
-        towerAttackDamage.text = stats.damage.ToString();
-        towerAttackSpeed.text = stats.fireSpeed.ToString();
+        towerName.text = stats.towerName + " (Level: " + stats.currentLevel.ToString() + ")";
+        towerAttackDamage.text = stats.GetCurrentDamage().ToString();
+        towerAttackSpeed.text = stats.GetFireSpeed().ToString();
         towerAttackRange.text = stats.fireRange.ToString();
     }
 
-    private void Hide()
+    public void Hide()
     {
         displayObject.transform.localScale = Vector3.zero;
     }

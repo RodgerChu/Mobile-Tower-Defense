@@ -16,9 +16,12 @@ MonoBehaviour:
   towerIcon: {fileID: 4985848542442974150, guid: 2262f408278271248889a3ea3c7e75bf,
     type: 3}
   cost: 15
-  upgradeCost: 0
+  upgradeCost: 3
   fireRange: 10
   fireSpeed: 0.6
   damage: 1
+  bonusDamageWithLevelAmount: 1
+  fireSpeedIncreaseWithLevelAmount: 0.1
   poolableProjectile: {fileID: 6347683750245753239, guid: 876c8b76b93e24d8e9085b45be8c781d,
     type: 3}
+  currentLevel: 1

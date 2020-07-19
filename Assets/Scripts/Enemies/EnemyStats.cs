@@ -26,7 +26,14 @@ public class EnemyStats: ScriptableObject
 
         if (currentHealthPoints != 0)
         {
-            currentHealthPoints -= amount;
+            if (amount > currentHealthPoints)
+            {
+                currentHealthPoints = 0;
+            }
+            else
+            {
+                currentHealthPoints -= amount;
+            }            
         }
         
         if (currentHealthPoints == 0)

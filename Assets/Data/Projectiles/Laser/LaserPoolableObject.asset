@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3705c8d894adb4e679e117fd79368cb5, type: 3}
+  m_Name: LaserPoolableObject
+  m_EditorClassIdentifier: 
+  poolable: {fileID: 6734589775068646249, guid: 55a278d9285524005a6697188fadcf02,
+    type: 3}
+  poolableData: {fileID: 11400000, guid: 223f132f1d5ed4904b1160d6c35e215c, type: 2}

@@ -1,0 +1,72 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &166073160405344635
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 166073160405344633}
+  - component: {fileID: 166073160405344632}
+  m_Layer: 0
+  m_Name: GameFlowManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &166073160405344633
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 166073160405344635}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 11.267984, y: -0.08599472, z: 1.835371}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &166073160405344632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 166073160405344635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63533f861c4a14eb0b75aa25f3e2ee40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  poolableObjects:
+  - {fileID: 11400000, guid: b8f2b4d43d4e94f4b989ebad0bd6b607, type: 2}
+  - {fileID: 11400000, guid: 4d8846b8a4acb44b0966eadd0581ddff, type: 2}
+  - {fileID: 11400000, guid: eda8a68c237514d628d1e4310efe603a, type: 2}
+  - {fileID: 11400000, guid: ed16a306e02cc4dcca79b54279d0a211, type: 2}
+  - {fileID: 11400000, guid: 579b4f58c70c042428e43ce7faa8c420, type: 2}
+  waves:
+  - {fileID: 11400000, guid: 1998fd167b5fb4260a56cb601a8fa81e, type: 2}
+  - {fileID: 11400000, guid: 64eb8c5aaef0a46899563e93cb10cc36, type: 2}
+  enemySpawnPoint: {fileID: 0}
+  waypoints:
+  - {fileID: 0}
+  defaultHealth: 5
+  OnWaveEnded:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_MethodName: OnWaveComplete
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2

@@ -8,10 +8,10 @@ public class PlayerResourceController : MonoBehaviour
     private uint currentMoney = 0;
 
     void Start()
-    {
-        GameEventObserver.FireOnMoneyChangedEvent(startingMoney);
-        GameEventObserver.AddOnEnemyKillListener(OnEnemyKill);
+    {      
         currentMoney = startingMoney;
+        GameEventObserver.AddOnEnemyKillListener(OnEnemyKill);
+        GameEventObserver.FireOnMoneyChangedEvent(startingMoney);
     }
 
     private void OnEnemyKill(EnemyController enemy)

@@ -29,7 +29,7 @@ public class PlayerBuildController : MonoBehaviour
         {
             case TowerManagementAction.UPGRADE:
                 var cost = cell.ActionCost;
-                if (cost < playerResources.GetCurrentMoney())
+                if (cost <= playerResources.GetCurrentMoney())
                 {
                     cell.SetSelected();
                 }

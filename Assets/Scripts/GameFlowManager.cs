@@ -23,7 +23,9 @@ public class GameFlowManager : MonoBehaviour
     void Start()
     {
         currentHealth = defaultHealth;
-
+        GameEventObserver.FireHUDHealthEvent(currentHealth);
+        GameEventObserver.FireHUDMaxWaveEvent((uint)waves.Length);
+        
         PoolManager.Initialize();
 
         for (int index = 0; index < poolableObjects.Length; index++)

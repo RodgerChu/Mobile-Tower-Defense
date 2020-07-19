@@ -49,6 +49,9 @@ public static class PoolManager
         else
         {
             Debug.LogWarning("Tried to get from pull object that is not in pool");
+            var newPoolable = GameObject.Instantiate(poolable);
+            gObject = newPoolable.gameObject;
+            newPoolable.OnActivatedFromPool();
         }
 
         return gObject;

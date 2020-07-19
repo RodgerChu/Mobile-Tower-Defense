@@ -1,11 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class GUIController : MonoBehaviour
 {
     public TowerBuildDisplayController buildTowerMenu;
     public TowerManagementDisplayController managementTowerMenu;
+
+    public UnityEvent OnGUIHide;
 
     private RectTransform buildTowerMenuRectTransform;
     private RectTransform managementTowerMenuRectTransform;
@@ -26,12 +29,14 @@ public class GUIController : MonoBehaviour
             if (!IsPointInRT(mousePosition, buildTowerMenu.gameObject.GetComponent<RectTransform>()))
             {
                 buildTowerMenu.Hide();
+                OnGUIHide?.Invoke();
             }
 
             if (!IsPointInRT(mousePosition, managementTowerMenu.gameObject.GetComponent<RectTransform>()))
             {
                 Debug.Log("managementTowerMenu.Hide");
                 managementTowerMenu.Hide();
+                OnGUIHide?.Invoke();
             }
         }
     }
@@ -43,9 +48,6 @@ public class GUIController : MonoBehaviour
         float rightSide = rt.position.x + rect.xMax;
         float topSide = rt.position.y + rect.yMax;
         float bottomSide = rt.position.y + rect.yMin;
-
-        Debug.Log("Sides: " + leftSide + " " + rightSide + " " + topSide + " " + bottomSide);
-        Debug.Log("Point: " + point);
 
         return point.x >= leftSide &&
                point.x <= rightSide &&

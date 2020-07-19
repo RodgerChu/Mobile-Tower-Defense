@@ -11,14 +11,17 @@ public class TowerController : Poolable
     public Transform projectileStartPosition;
 
     private TowerStats currentTowerStats;
-    private uint currentTowerLevel = 1;
     private float shootingTimer;
     private EnemyController targetEnemy;
     private List<EnemyController> enemiesInRange = new List<EnemyController>();
 
-    void Start()
+    private void Awake()
     {
         currentTowerStats = Instantiate(towerStatsPrefab);
+    }
+
+    void Start()
+    {        
         var shootRangeCollider = GetComponent<SphereCollider>();
         shootRangeCollider.radius = currentTowerStats.fireRange;
     }
@@ -55,9 +58,9 @@ public class TowerController : Poolable
         }
         else
         {
-            bulletController.damage = currentTowerStats.damage;
-            bulletController.FireAt(targetEnemy.transform.position, projectileStartPosition.position);
-            shootingTimer = currentTowerStats.fireSpeed;
+            bulletController.damage = currentTowerStats.GetCurrentDamage();
+            bulletController.FireAt(targetEnemy, projectileStartPosition);
+            shootingTimer = currentTowerStats.GetFireSpeed();
         }
     }
 
@@ -132,19 +135,23 @@ public class TowerController : Poolable
 
     public void UpgradeTower()
     {
-        Debug.Log("On tower upgrade");
+        currentTowerStats.IncreaseLevel();
+    }
+
+    public TowerStats GetTowerStats()
+    {
+        return currentTowerStats ?? towerStatsPrefab;
     }
 
     public override void OnMovedToPool()
     {
-        currentTowerLevel = 1;
         enemiesInRange.Clear();
-        targetEnemy = null;
-        shootingTimer = 0;
+        targetEnemy = null;           
     }
 
     public override void OnActivatedFromPool()
     {
-        
+        currentTowerStats.currentLevel = 1;
+        shootingTimer = 0;
     }
 }

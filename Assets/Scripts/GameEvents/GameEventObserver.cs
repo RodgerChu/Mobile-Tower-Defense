@@ -9,6 +9,7 @@ public static class GameEventObserver
     private static Action<uint> OnDamageTaken;
     private static Action<uint> OnMoneyChanged;
     private static Action<uint> HUDHealthEvent;
+    private static Action<uint> HUDSetMaximumWavesEvent;
 
     #region OnEnemyKill
 
@@ -63,6 +64,24 @@ public static class GameEventObserver
     public static void FireHUDHealthEvent(uint damange)
     {
         HUDHealthEvent?.Invoke(damange);
+    }
+
+    #endregion
+
+    #region HUD Max Wave
+    public static void AddHUDMaxWaveEventListener(Action<uint> listener)
+    {
+        HUDSetMaximumWavesEvent += listener;
+    }
+
+    public static void RemoveHUDMaxWaveEventListener(Action<uint> listener)
+    {
+        HUDSetMaximumWavesEvent -= listener;
+    }
+
+    public static void FireHUDMaxWaveEvent(uint damange)
+    {
+        HUDSetMaximumWavesEvent?.Invoke(damange);
     }
 
     #endregion

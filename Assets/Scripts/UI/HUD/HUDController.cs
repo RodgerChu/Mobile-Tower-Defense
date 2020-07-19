@@ -11,10 +11,13 @@ public class HUDController : MonoBehaviour
     public TextMeshProUGUI currentHealth;
     public TextMeshProUGUI currentWave;
 
-    private void Start()
+    private uint wave = 1;
+    private uint maxWaves = 2;
+    private void Awake()
     {
         GameEventObserver.AddHUDHealthEventListener(HUDHealthEvent);
         GameEventObserver.AddOnMOneyChangedListener(OnMoneyChanged);
+        GameEventObserver.AddHUDMaxWaveEventListener(OnMaxWaveChanged);
     }
 
     private void HUDHealthEvent(uint health)
@@ -25,5 +28,27 @@ public class HUDController : MonoBehaviour
     private void OnMoneyChanged(uint newAmount)
     {
         currentMoney.text = newAmount.ToString();
+    }
+
+    public void OnWaveComplete()
+    {
+        wave++;
+        if (wave > maxWaves)
+        {
+            wave = maxWaves;
+        }
+
+        UpdateWaveText();
+    }
+
+    public void OnMaxWaveChanged(uint newMaxWaves)
+    {
+        maxWaves = newMaxWaves;
+        UpdateWaveText();
+    }
+
+    private void UpdateWaveText()
+    {
+        currentWave.text = wave.ToString() + "/" + maxWaves.ToString();
     }
 }
